@@ -9,7 +9,7 @@
 
 Name:               python-xmltodict
 Version:            0.4.2
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            Makes working with XML feel like you are working with JSON
 
 Group:              Development/Libraries
@@ -139,6 +139,9 @@ popd
 %endif
 
 %changelog
+* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
 * Fri Jan 04 2013 Ralph Bean <rbean@redhat.com> - 0.4.2-1
 - Latest upstream
 - Included README and LICENSE
