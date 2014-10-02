@@ -1,21 +1,23 @@
 %if 0%{?fedora} > 12
 %global with_python3 1
 %{!?py3ver: %global py3ver %(%{__python3} -c "import sys ; print(sys.version[:3])")}
+%else
+%{!?__python2: %global __python2 /usr/bin/python2}
+%{!?python2_sitelib: %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print (get_python_lib())")}
+%{!?py2ver: %global py2ver %(%{__python2} -c "import sys ; print sys.version[:3]")}
 %endif
-%{!?py2ver: %global py2ver %(%{__python} -c "import sys ; print sys.version[:3]")}
 
-
-%global modname xmltodict
+%global srcname xmltodict
 
 Name:               python-xmltodict
-Version:            0.4.2
-Release:            5%{?dist}
+Version:            0.9.0
+Release:            1%{?dist}
 Summary:            Makes working with XML feel like you are working with JSON
 
 Group:              Development/Libraries
 License:            MIT
-URL:                http://pypi.python.org/pypi/xmltodict
-Source0:            http://pypi.python.org/packages/source/x/%{modname}/%{modname}-%{version}.tar.gz
+URL:                https://github.com/martinblech/xmltodict
+Source0:            http://pypi.python.org/packages/source/x/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildArch:          noarch
 
@@ -60,7 +62,7 @@ Wikipedia.
 Summary:            Makes working with XML feel like you are working with JSON
 Group:              Development/Libraries
 
-Requires:   python3
+Requires:           python3
 
 %description -n python3-xmltodict
 xmltodict is a Python module that makes working with XML feel like you are
@@ -91,23 +93,22 @@ Wikipedia.
 %endif
 
 %prep
-%setup -q -n %{modname}-%{version}
-
-# Remove bundled egg-info in case it exists
-rm -rf %{modname}.egg-info
+%setup -q -n %{srcname}-%{version}
+rm -rf %{srcname}.egg-info
+find -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python2}|'
 %if 0%{?with_python3}
 rm -rf %{py3dir}
 cp -a . %{py3dir}
+find %{py3dir} -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 %endif
 
 %build
-%{__python} setup.py build
+%{__python2} setup.py build
 %if 0%{?with_python3}
 pushd %{py3dir}
 %{__python3} setup.py build
 popd
 %endif
-
 
 %install
 %if 0%{?with_python3}
@@ -115,7 +116,7 @@ pushd %{py3dir}
 %{__python3} setup.py install -O1 --skip-build --root=%{buildroot}
 popd
 %endif
-%{__python} setup.py install -O1 --skip-build --root=%{buildroot}
+%{__python2} setup.py install -O1 --skip-build --root=%{buildroot}
 
 %check
 nosetests-%{py2ver}
@@ -127,18 +128,22 @@ popd
 
 %files
 %doc README.md LICENSE PKG-INFO
-%{python_sitelib}/%{modname}.py*
-%{python_sitelib}/%{modname}-%{version}*
+%{python_sitelib}/%{srcname}.py*
+%{python_sitelib}/%{srcname}-%{version}*
 
 %if 0%{?with_python3}
 %files -n python3-xmltodict
 %doc README.md LICENSE PKG-INFO
-%{python3_sitelib}/%{modname}.py
-%{python3_sitelib}/%{modname}-%{version}-*
-%{python3_sitelib}/__pycache__/%{modname}*
+%{python3_sitelib}/%{srcname}.py
+%{python3_sitelib}/%{srcname}-%{version}-*
+%{python3_sitelib}/__pycache__/%{srcname}*
 %endif
 
 %changelog
+* Thu Oct 02 2014 Fabian Affolter <mail@fabian-affolter.ch> - 0.9.0-1
+- Update spec file according guidelines 
+- Update to upstream release 0.9.0
+
 * Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.4.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
