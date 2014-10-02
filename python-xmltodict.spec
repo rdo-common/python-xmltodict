@@ -4,8 +4,8 @@
 %else
 %{!?__python2: %global __python2 /usr/bin/python2}
 %{!?python2_sitelib: %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print (get_python_lib())")}
-%{!?py2ver: %global py2ver %(%{__python2} -c "import sys ; print sys.version[:3]")}
 %endif
+%{!?py2ver: %global py2ver %(%{__python2} -c "import sys ; print sys.version[:3]")}
 
 %global srcname xmltodict
 
