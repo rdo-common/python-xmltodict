@@ -3,7 +3,7 @@
 
 Name:               python-xmltodict
 Version:            0.9.2
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            %{sum}
 
 License:            MIT
@@ -76,6 +76,9 @@ popd
 %{python3_sitelib}/__pycache__/%{srcname}*
 
 %changelog
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Sat Nov 14 2015 Fabian Affolter <mail@fabian-affolter.ch> - 0.9.2-1
 - Cleanup
 - Update to latest upstream reelase 0.9.2
