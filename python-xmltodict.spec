@@ -55,7 +55,7 @@ Wikipedia.
 %py3_install
 
 %check
-nosetests-%{py2ver}
+nosetests-2.7
 %if 0%{?with_python3}
 pushd %{py3dir}
 nosetests-%{py3ver}
