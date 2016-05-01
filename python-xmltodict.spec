@@ -2,8 +2,8 @@
 %global sum A Python to transform XML to JSON
 
 Name:               python-xmltodict
-Version:            0.9.2
-Release:            2%{?dist}
+Version:            0.10.1
+Release:            1%{?dist}
 Summary:            %{sum}
 
 License:            MIT
@@ -76,6 +76,9 @@ popd
 %{python3_sitelib}/__pycache__/%{srcname}*
 
 %changelog
+* Sun May 01 2016 Fabian Affolter <mail@fabian-affolter.ch> - 0.10.1-1
+- Update to latest upstream reelase 0.10.1
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.9.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
