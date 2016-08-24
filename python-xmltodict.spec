@@ -65,8 +65,8 @@ popd
 %files -n python2-%{srcname}
 %doc README.md PKG-INFO
 %license LICENSE
-%{python_sitelib}/%{srcname}.py*
-%{python_sitelib}/%{srcname}-%{version}*
+%{python2_sitelib}/%{srcname}.py*
+%{python2_sitelib}/%{srcname}-%{version}*
 
 %files -n python3-%{srcname}
 %doc README.md LICENSE PKG-INFO
