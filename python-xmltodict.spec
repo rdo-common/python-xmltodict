@@ -1,6 +1,10 @@
 %global srcname xmltodict
 %global sum A Python to transform XML to JSON
 
+%if 0%{?fedora}
+%global with_python3 1
+%endif
+
 Name:               python-xmltodict
 Version:            0.10.1
 Release:            1%{?dist}
@@ -12,11 +16,6 @@ Source0:            http://pypi.python.org/packages/source/x/%{srcname}/%{srcnam
 
 BuildArch:          noarch
 
-BuildRequires:      python2-devel
-BuildRequires:      python2-nose
-BuildRequires:      python3-devel
-BuildRequires:      python3-nose
-
 %description
 xmltodict is a Python module that makes working with XML feel like you are
 working with JSON.  It's very fast (Expat-based) and has a streaming mode
@@ -27,32 +26,44 @@ Wikipedia.
 Summary:        %{sum}
 %{?python_provide:%python_provide python2-%{srcname}}
 
+BuildRequires:      python2-devel
+BuildRequires:      python2-nose
+
 %description -n python2-%{srcname}
 xmltodict is a Python module that makes working with XML feel like you are
 working with JSON.  It's very fast (Expat-based) and has a streaming mode
 with a small memory footprint, suitable for big XML dumps like Discogs or
 Wikipedia.
 
+%if 0%{?with_python3}
 %package -n python3-%{srcname}
 Summary:        %{sum}
 %{?python_provide:%python_provide python3-%{srcname}}
+
+BuildRequires:      python3-devel
+BuildRequires:      python3-nose
 
 %description -n python3-%{srcname}
 xmltodict is a Python module that makes working with XML feel like you are
 working with JSON.  It's very fast (Expat-based) and has a streaming mode
 with a small memory footprint, suitable for big XML dumps like Discogs or
 Wikipedia.
+%endif
 
 %prep
 %autosetup -n %{srcname}-%{version}
 
 %build
 %py2_build
+%if 0%{?with_python3}
 %py3_build
+%endif
 
 %install
 %py2_install
+%if 0%{?with_python3}
 %py3_install
+%endif
 
 %check
 nosetests-2.7
@@ -68,12 +79,14 @@ popd
 %{python2_sitelib}/%{srcname}.py*
 %{python2_sitelib}/%{srcname}-%{version}*
 
+%if 0%{?with_python3}
 %files -n python3-%{srcname}
 %doc README.md LICENSE PKG-INFO
 %license LICENSE
 %{python3_sitelib}/%{srcname}.py
 %{python3_sitelib}/%{srcname}-%{version}-*
 %{python3_sitelib}/__pycache__/%{srcname}*
+%endif
 
 %changelog
 * Sun May 01 2016 Fabian Affolter <mail@fabian-affolter.ch> - 0.10.1-1
